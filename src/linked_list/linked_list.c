@@ -31,10 +31,18 @@ int linked_list_insert(int element, struct ListNode * pList)
     
    return LISTR_OK;
 }
+#if 0
+int linked_list_insert(int element, struct ListNode * pList)
+{
+    if(!pList)
+        return LISTR_FAIL;
 
+    
+}
+#endif
 void linked_list_traverse(struct ListNode * pList)
 {    
-    struct ListNode * pTemp = pList->next;
+    struct ListNode * pTemp = pList;
 
     while(pTemp != NULL)
     {
@@ -87,6 +95,8 @@ struct ListNode* reverseList(struct ListNode* head)
 
     p = head; 
     q = head->next;
+        printf("p val =%d\n", p->val);
+        printf("q val =%d\n", q->val);
 
     while(q)
     {
@@ -94,15 +104,18 @@ struct ListNode* reverseList(struct ListNode* head)
         q->next = p;
         p = q;
         q = t;
+        printf("p val =%d\n", p->val);
     }
 
     head->next = NULL;
     head = p;
+    printf("head val =%d\n", head->val);
+    printf(" head->next val =%d\n",  head->next->val);
 
     return head;
 }
 
-
+#if 0
 bool isPalindrome(struct ListNode* head) 
 {
     struct ListNode* p = head;
@@ -123,7 +136,7 @@ bool isPalindrome(struct ListNode* head)
 
     q = p;
 }
-
+#endif
 
 struct ListNode* link_list_find_mid_ele(struct ListNode* head)
 {
@@ -148,24 +161,33 @@ struct ListNode* link_list_find_mid_ele(struct ListNode* head)
 void link_list_main_test(void)
 {
     int i =0;
-    struct ListNode * testList = (struct ListNode *)malloc(sizeof(struct ListNode));
+    struct ListNode * head = (struct ListNode *)malloc(sizeof(struct ListNode));
 
-    for(i=1; i<=2; i++)
+    //for(i=1; i<=2; i++)
     {
-        linked_list_insert(i, testList);
+    //    linked_list_insert(i, testList);
     }
+    head->val = 1;
     
+    struct ListNode * testList2 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    testList2->val = 2;
+
+    head->next = testList2;
+    testList2->next = NULL;
     //struct ListNode * list = (struct ListNode *)malloc(sizeof(struct ListNode));
     //list = reverseList(testList);
 
-    linked_list_traverse(testList);
+    linked_list_traverse(head);
 
     struct ListNode * retNode;
+    struct ListNode * p = head;
 // retNode = link_list_find_mid_ele(testList);
-    retNode = reverseList(testList);
+    retNode = reverseList(head);
+//printf("head val =%d\n", head->val);
+//printf(" head->next val =%d\n",  head->next->val);
 
 printf("\n\n");
-    linked_list_traverse(testList);
+   // linked_list_traverse(p);
 
     //printf("The mid ele is %d\n", retNode->val);
 }
