@@ -28,18 +28,10 @@ int linked_list_insert(int element, struct ListNode * pList)
     node->next = NULL;
     
     pTemp->next= node;   
-    
+
    return LISTR_OK;
 }
-#if 0
-int linked_list_insert(int element, struct ListNode * pList)
-{
-    if(!pList)
-        return LISTR_FAIL;
 
-    
-}
-#endif
 void linked_list_traverse(struct ListNode * pList)
 {    
     struct ListNode * pTemp = pList;
@@ -51,6 +43,9 @@ void linked_list_traverse(struct ListNode * pList)
     }
 }
 #if 0
+/*
+**  This solution : The head point to head, not the first element
+*/
 struct ListNode* reverseList(struct ListNode* head) 
 {
     if(!head || !head->next)
@@ -95,8 +90,6 @@ struct ListNode* reverseList(struct ListNode* head)
 
     p = head; 
     q = head->next;
-        printf("p val =%d\n", p->val);
-        printf("q val =%d\n", q->val);
 
     while(q)
     {
@@ -104,13 +97,10 @@ struct ListNode* reverseList(struct ListNode* head)
         q->next = p;
         p = q;
         q = t;
-        printf("p val =%d\n", p->val);
     }
 
     head->next = NULL;
     head = p;
-    printf("head val =%d\n", head->val);
-    printf(" head->next val =%d\n",  head->next->val);
 
     return head;
 }
@@ -161,33 +151,22 @@ struct ListNode* link_list_find_mid_ele(struct ListNode* head)
 void link_list_main_test(void)
 {
     int i =0;
-    struct ListNode * head = (struct ListNode *)malloc(sizeof(struct ListNode));
-
-    //for(i=1; i<=2; i++)
-    {
-    //    linked_list_insert(i, testList);
-    }
-    head->val = 1;
-    
-    struct ListNode * testList2 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    testList2->val = 2;
-
-    head->next = testList2;
-    testList2->next = NULL;
-    //struct ListNode * list = (struct ListNode *)malloc(sizeof(struct ListNode));
-    //list = reverseList(testList);
-
-    linked_list_traverse(head);
-
     struct ListNode * retNode;
-    struct ListNode * p = head;
-// retNode = link_list_find_mid_ele(testList);
-    retNode = reverseList(head);
-//printf("head val =%d\n", head->val);
-//printf(" head->next val =%d\n",  head->next->val);
+    struct ListNode * head= (struct ListNode *)malloc(sizeof(struct ListNode));
 
-printf("\n\n");
-   // linked_list_traverse(p);
+    for(i=1; i<=11; i++)
+    {
+        linked_list_insert(i, head);
+    }
+
+    head = head->next;  // let the head point to the first element
+    
+    linked_list_traverse(head);
+    
+    retNode = link_list_find_mid_ele(head);
+    printf("The mid ele is %d\n", retNode->val);
+
+    linked_list_traverse(retNode);
 
     //printf("The mid ele is %d\n", retNode->val);
 }
