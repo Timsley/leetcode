@@ -128,6 +128,51 @@ bool isPalindrome(struct ListNode* head)
 }
 #endif
 
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) 
+{
+    struct ListNode *head;
+    struct ListNode *p, *q;
+    struct ListNode *pHead;
+
+    p = l1;
+    q = l2;
+    pHead = head;
+
+    if(p->val <= q->val)
+    {
+        head = p;
+        p = p->next;
+    }
+    else
+    {
+        head = q;
+        q = q->next;
+    }
+
+    while(p && q)
+    {
+        if(p->val <= q->val)
+        {
+            pHead->next = p;
+            p = p->next;
+        }
+        else
+        {
+            pHead->next = q;
+            q = q->next;
+        }
+        pHead = pHead->next;
+    }
+
+    if(p)
+        pHead->next = p;
+    else if(q)
+        pHead->next = q;
+
+    return head->next ;
+
+}
+
 struct ListNode* link_list_find_mid_ele(struct ListNode* head)
 {
     struct ListNode* fast, *slow;
@@ -158,15 +203,29 @@ void link_list_main_test(void)
     {
         linked_list_insert(i, head);
     }
+    
+    struct ListNode * head2= (struct ListNode *)malloc(sizeof(struct ListNode));
+    head2->val = 5;
+    struct ListNode * head3= (struct ListNode *)malloc(sizeof(struct ListNode));
+    head3->val = 9;
+
+    head2->next = head3;
+    head3->next = NULL;
+
+    //for(i=5; i<=13; i++)
+    {
+    //    linked_list_insert(i, head2);
+    }
 
     head = head->next;  // let the head point to the first element
     
-    linked_list_traverse(head);
-    
-    retNode = link_list_find_mid_ele(head);
-    printf("The mid ele is %d\n", retNode->val);
+    //head2 = head2->next;  // let the head point to the first element
 
+    retNode = mergeTwoLists(head, head2);
     linked_list_traverse(retNode);
-
+    
+    //retNode = link_list_find_mid_ele(head);
     //printf("The mid ele is %d\n", retNode->val);
+
+    //linked_list_traverse(retNode);
 }

@@ -12,6 +12,7 @@ BIN_TARGET = ${DIR_BIN}/${TARGET}
 
 DIRS_Spk   += src
 DIRS_Spk   += src/linked_list
+DIRS_Spk   += src/two_pointers
 
 
 DIR_FILES  = $(foreach dir, $(DIRS_Spk),$(wildcard $(dir)/*.c))
