@@ -13,25 +13,28 @@ For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums sh
 void moveZeroes(int* nums, int numsSize) 
 {
     int *p, *q;
-
     p = nums;
-    q = nums;       // Point to the nonzero num
-
-
-    while(q < nums+numsSize)
+    q = nums;
+    
+    while(q<nums+numsSize)
     {
-        if(0 == *q)
+        if(0 == *p)   
         {
-            q++;
+            if(0 == *q)
+                q++;
+            else
+            {
+                *p = *q;
+                *q = 0;
+                p++;
+                q++;
+            }
         }
         else
         {
-            *p = *q;
-            *q = 0;
             p++;
             q++;
         }
-        printf("p=%d    q=%d\n", *p, *q);
     }
 }
 
@@ -52,7 +55,6 @@ void two_pointers_main_test(void)
     int nums[] = {0, 1, 0, 3, 12};
     int len = sizeof(nums)/sizeof(nums[0]);
 
-    printf("len=%d\n", len);
     moveZeroes(nums, len);
 
     two_pointers_print(nums, len);
