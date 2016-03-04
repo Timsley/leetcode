@@ -128,49 +128,57 @@ bool isPalindrome(struct ListNode* head)
 }
 #endif
 
+/*
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+*/
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) 
 {
     struct ListNode *head;
-    struct ListNode *p, *q;
-    struct ListNode *pHead;
+    struct ListNode *ret;
 
-    p = l1;
-    q = l2;
-    pHead = head;
-
-    if(p->val <= q->val)
+    if(!l1 && l2)
+        return l2;
+    if(l1&&!l2)
+        return l1;
+    if(!l1 && !l2)
+        return NULL;
+    
+    if(l1->val <= l2->val)
     {
-        head = p;
-        p = p->next;
+        head = l1;
+        l1 = l1->next;
     }
     else
     {
-        head = q;
-        q = q->next;
+        head = l2;
+        l2 = l2->next;
     }
-
-    while(p && q)
+    
+    ret = head;
+    
+    while(l1 && l2)
     {
-        if(p->val <= q->val)
+        if(l1->val < l2->val)
         {
-            pHead->next = p;
-            p = p->next;
+            head->next = l1;
+            l1 = l1->next;
         }
         else
         {
-            pHead->next = q;
-            q = q->next;
+            head->next = l2;
+            l2 = l2->next;
         }
-        pHead = pHead->next;
+
+        head->next->next = NULL;
+        head = head->next;        
     }
 
-    if(p)
-        pHead->next = p;
-    else if(q)
-        pHead->next = q;
+    if(l1)
+        head->next = l1;
+    else if(l2)
+        head->next = l2;
 
-    return head->next ;
-
+    return ret;
 }
 
 struct ListNode* link_list_find_mid_ele(struct ListNode* head)
@@ -195,33 +203,35 @@ struct ListNode* link_list_find_mid_ele(struct ListNode* head)
 
 void link_list_main_test(void)
 {
-    int i =0;
+    //int i =0;
+    struct ListNode * l1_head, * l2_head;
     struct ListNode * retNode;
-    struct ListNode * head= (struct ListNode *)malloc(sizeof(struct ListNode));
+    struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    linked_list_insert(1, l1);    
+    linked_list_insert(5, l1);
+    linked_list_insert(8, l1);
+    linked_list_insert(11, l1);
+    l1_head = l1->next;
 
-    for(i=1; i<=11; i++)
-    {
-        linked_list_insert(i, head);
-    }
     
-    struct ListNode * head2= (struct ListNode *)malloc(sizeof(struct ListNode));
-    head2->val = 5;
-    struct ListNode * head3= (struct ListNode *)malloc(sizeof(struct ListNode));
-    head3->val = 9;
-
-    head2->next = head3;
-    head3->next = NULL;
+    struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    linked_list_insert(2, l2);
+    linked_list_insert(5, l2);
+    linked_list_insert(9, l2);
+    linked_list_insert(13, l2);
+    l2_head = l2->next;
 
     //for(i=5; i<=13; i++)
     {
     //    linked_list_insert(i, head2);
     }
-
-    head = head->next;  // let the head point to the first element
+    linked_list_traverse(l1_head);
+    linked_list_traverse(l2_head);
+    
     
     //head2 = head2->next;  // let the head point to the first element
 
-    retNode = mergeTwoLists(head, head2);
+   retNode = mergeTwoLists(l1_head, l2_head);
     linked_list_traverse(retNode);
     
     //retNode = link_list_find_mid_ele(head);

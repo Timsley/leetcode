@@ -1,12 +1,12 @@
 MOVE = mv
 DIR_INC = ./include
 DIR_OBJ = ./obj
-DIR_BIN = ./bin
+#DIR_BIN = ./bin
 CC = gcc
 CFLAGS = -g -Wall -I${DIR_INC}
 
 TARGET = main
-BIN_TARGET = ${DIR_BIN}/${TARGET}
+#BIN_TARGET = ${DIR_BIN}/${TARGET}
 
 
 
