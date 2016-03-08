@@ -200,6 +200,55 @@ struct ListNode* link_list_find_mid_ele(struct ListNode* head)
     return slow;
 }
 
+/***************************************************************************************
+*****                                                               No. 328
+*****       Given a singly linked list, group all odd nodes together followed by the even nodes. Please note 
+*****       here we are talking about the node number and not the value in the nodes.
+*****       You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
+*****       Example:
+*****       Given 1->2->3->4->5->NULL,
+*****       return 1->3->5->2->4->NULL.
+*****
+*****       Note:
+*****       The relative order inside both the even and odd groups should remain as it was in the input. 
+*****       The first node is considered odd, the second node even and so on ...
+****************************************************************************************/
+struct ListNode* oddEvenList(struct ListNode* head) 
+{
+    struct ListNode *p, *q, *t, *evenHead;
+    int count = 1;
+    
+    if(!head || !head->next || !head->next->next)
+        return head;
+
+    p = head;
+    q = head->next;
+    evenHead = head->next;
+    t = head->next->next;
+
+    while(t)
+    {
+        if(1 == count)
+        {
+            count = 2;
+            p->next = t;
+            p = t;
+        }
+        else if(2 == count)
+        {
+            count = 1;
+            q->next = t;
+            q = t;
+        }
+        t = t->next;
+    }
+
+    q->next = NULL;
+    p->next = evenHead;
+    
+    return head;
+}
+
 
 void link_list_main_test(void)
 {
@@ -208,9 +257,11 @@ void link_list_main_test(void)
     struct ListNode * retNode;
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(1, l1);    
+    linked_list_insert(2, l1);
+    linked_list_insert(3, l1);
+    linked_list_insert(4, l1);
     linked_list_insert(5, l1);
-    linked_list_insert(8, l1);
-    linked_list_insert(11, l1);
+    linked_list_insert(6, l1);
     l1_head = l1->next;
 
     
@@ -231,7 +282,8 @@ void link_list_main_test(void)
     
     //head2 = head2->next;  // let the head point to the first element
 
-   retNode = mergeTwoLists(l1_head, l2_head);
+  // retNode = mergeTwoLists(l1_head, l2_head);
+    retNode = oddEvenList(l1_head);
     linked_list_traverse(retNode);
     
     //retNode = link_list_find_mid_ele(head);
