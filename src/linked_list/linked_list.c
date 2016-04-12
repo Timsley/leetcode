@@ -275,30 +275,92 @@ struct ListNode* deleteDuplicates(struct ListNode* head)
     return head;
 }
 
+/***************************************************************************************
+*****                             No. 160      Intersection of Two Linked Lists
+*****       Write a program to find the node at which the intersection of two singly linked lists begins.
+*****       Notes:
+*****       If the two linked lists have no intersection at all, return null.
+*****       The linked lists must retain their original structure after the function returns.
+*****       You may assume there are no cycles anywhere in the entire linked structure.
+*****       Your code should preferably run in O(n) time and use only O(1) memory.
+****************************************************************************************/
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB)
+{
+    
+}
+
+/***************************************************************************************
+*****                             203. Remove Linked List Elements
+*****       Remove all elements from a linked list of integers that have value val.
+*****       Example
+*****       Given: 1 --> 2 --> 6 --> 3 --> 4 --> 5 --> 6, val = 6
+*****       Return: 1 --> 2 --> 3 --> 4 --> 5
+****************************************************************************************/
+struct ListNode* removeElements(struct ListNode* head, int val) 
+{
+    struct ListNode * p;
+    struct ListNode * q;
+    struct ListNode * ret;
+    
+    if(!head)
+        return NULL;
+    
+    p = head;
+
+    while(p && (p->val == val))     // find the head of the return list
+    {
+        p = p->next;
+    }
+
+    if(!p)
+        return NULL;
+
+    q = p;
+    ret = q;                                   // keep the first element of the return list
+
+    p = p->next;
+    
+    while(p)
+    {
+        if(p->val != val)                 // if val is not equal the p->val, save it to the return list
+        {
+            q->next = p;
+            q = p;
+        }
+
+        p = p->next;
+    }
+
+    q->next =NULL;
+
+    return ret;
+}
+
+
+
 void link_list_main_test(void)
 {
     //int i =0;
     struct ListNode * l1_head, * l2_head;
     struct ListNode * retNode;
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    linked_list_insert(0, l1);    
-    linked_list_insert(1, l1);   
-    linked_list_insert(1, l1);
-    linked_list_insert(3, l1);
-    linked_list_insert(3, l1);
+    linked_list_insert(1, l1);    
+    linked_list_insert(2, l1);   
+    linked_list_insert(6, l1);
     linked_list_insert(3, l1);
     linked_list_insert(4, l1);
-    linked_list_insert(5, l1);
+    linked_list_insert(3, l1);
+    linked_list_insert(3, l1);
     l1_head = l1->next;
 
-    
+#if 0    
     struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(2, l2);
     linked_list_insert(5, l2);
     linked_list_insert(9, l2);
     linked_list_insert(13, l2);
     l2_head = l2->next;
-
+#endif
     //for(i=5; i<=13; i++)
     {
     //    linked_list_insert(i, head2);
@@ -312,7 +374,7 @@ void link_list_main_test(void)
     //head2 = head2->next;  // let the head point to the first element
 
   // retNode = mergeTwoLists(l1_head, l2_head);
-    retNode = deleteDuplicates(l1_head);
+    retNode = removeElements(l1_head, 3);
     linked_list_traverse(retNode);
     
     //retNode = link_list_find_mid_ele(head);
