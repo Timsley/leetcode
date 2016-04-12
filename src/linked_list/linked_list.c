@@ -337,6 +337,49 @@ struct ListNode* removeElements(struct ListNode* head, int val)
 }
 
 
+/***************************************************************************************
+*****                             24. Swap Nodes in Pairs
+*****       Given a linked list, swap every two adjacent nodes and return its head.
+*****       For example,
+*****       Given 1->2->3->4, you should return the list as 2->1->4->3.
+*****       Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
+****************************************************************************************/
+struct ListNode* swapPairs(struct ListNode* head) 
+{
+    struct ListNode *p, *q, *right, *left;
+    struct ListNode * ret;
+    
+    if(!head || !head->next)
+        return head;
+
+    p = head;
+    q = p->next;
+
+    if(p && q)
+        ret = q;
+
+    while(p && q)
+    {
+        right = q->next;
+        q->next = p;
+        left = p;
+        p->next = right;
+        p = right;
+        
+        if(!right || !right->next)
+            break;
+        
+        if(right->next)
+        {
+            q = p->next;
+            left->next = q;
+        }
+    }
+
+    return ret;
+}
+
+
 
 void link_list_main_test(void)
 {
@@ -346,10 +389,10 @@ void link_list_main_test(void)
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(1, l1);    
     linked_list_insert(2, l1);   
-    linked_list_insert(6, l1);
     linked_list_insert(3, l1);
     linked_list_insert(4, l1);
     linked_list_insert(3, l1);
+    linked_list_insert(4, l1);
     linked_list_insert(3, l1);
     l1_head = l1->next;
 
@@ -374,7 +417,7 @@ void link_list_main_test(void)
     //head2 = head2->next;  // let the head point to the first element
 
   // retNode = mergeTwoLists(l1_head, l2_head);
-    retNode = removeElements(l1_head, 3);
+    retNode = swapPairs(l1_head);
     linked_list_traverse(retNode);
     
     //retNode = link_list_find_mid_ele(head);
