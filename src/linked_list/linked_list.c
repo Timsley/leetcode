@@ -286,7 +286,7 @@ struct ListNode* deleteDuplicates(struct ListNode* head)
 ****************************************************************************************/
 struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB)
 {
-    
+    return NULL;
 }
 
 /***************************************************************************************
@@ -395,47 +395,138 @@ void deleteNode(struct ListNode* node)
     node->next = node->next->next;
 }
 
+
+/***************************************************************************************
+*****                             2. Add Two Numbers
+*****       You are given two linked lists representing two non-negative numbers. 
+*****       The digits are stored in reverse order and each of their nodes contain a single digit. 
+*****       Add the two numbers and return it as a linked list.
+
+*****       Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+*****       Output: 7 -> 0 -> 8
+****************************************************************************************/
+void addNodeToList(struct ListNode* list)
+{
+    struct ListNode * node = (struct ListNode *)malloc(sizeof(struct ListNode));
+    if(node)
+    {
+        node->val = 1;
+        node->next = NULL;
+        list->next = node;
+    }
+}
+
+void addTailNodeToList(struct ListNode* list, BOOL fgADD)
+{
+    struct ListNode* temp;
+
+    while(list)
+    {
+        if(TRUE == fgADD)
+        {
+            list->val = list->val + 1;
+            fgADD = FALSE;
+            if(list->val >= 10)
+            {
+                list->val = list->val - 10;
+                fgADD = TRUE;
+            }
+            else
+                fgADD = FALSE;
+            
+            temp = list;
+            list = list->next;
+            
+             if(!list)
+            {
+                if(fgADD==TRUE)
+                    addNodeToList(temp);
+
+                return;
+            }
+        }
+        else
+            return;
+    }
+}
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
+{
+    BOOL fgADD = FALSE;
+    struct ListNode *l1_head, *l2_head;
+    struct ListNode *last_point;
+        
+    if(!l1)        return l2;
+    if(!l2)        return l1;
+
+    l1_head = l1;    l2_head = l2;
+
+    while(l1 && l2)
+    {
+        if(TRUE == fgADD)
+            l1->val = l2->val = l1->val + l2->val + 1;
+        else
+            l1->val = l2->val = l1->val + l2->val;
+
+        if(l1->val >= 10)
+        {
+            l1->val = l2->val = l1->val - 10;
+            fgADD = TRUE;
+        }
+        else
+            fgADD = FALSE;
+
+        last_point = l1;
+        l1 = l1->next;
+        l2 = l2->next;
+    }
+
+    if(l1)
+    {
+        addTailNodeToList(l1, fgADD);
+        return l1_head;
+    }
+    
+    if(l2)
+    {
+        addTailNodeToList(l2, fgADD);
+        return l2_head;
+    }
+
+    if(TRUE == fgADD)
+        addNodeToList(last_point);
+
+    return l1_head;
+}
+
 void link_list_main_test(void)
 {
     //int i =0;
     struct ListNode * l1_head, * l2_head;
     struct ListNode * retNode;
+    
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    linked_list_insert(1, l1);    
-    linked_list_insert(2, l1);   
-    linked_list_insert(3, l1);
-    linked_list_insert(4, l1);
-    linked_list_insert(3, l1);
-    linked_list_insert(4, l1);
-    linked_list_insert(3, l1);
+    linked_list_insert(2, l1);    
+    linked_list_insert(9, l1);    
+    linked_list_insert(9, l1);    
     l1_head = l1->next;
 
-#if 0    
     struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    linked_list_insert(2, l2);
-    linked_list_insert(5, l2);
-    linked_list_insert(9, l2);
-    linked_list_insert(13, l2);
+    linked_list_insert(9, l2);       
+    linked_list_insert(9, l2);  
     l2_head = l2->next;
-#endif
+    
     //for(i=5; i<=13; i++)
     {
     //    linked_list_insert(i, head2);
     }
     linked_list_traverse(l1_head);
-    //linked_list_traverse(l2_head);
+    printf("\n");
+    linked_list_traverse(l2_head);
 
     printf("\n\n");
     
-    
-    //head2 = head2->next;  // let the head point to the first element
-
   // retNode = mergeTwoLists(l1_head, l2_head);
-    retNode = swapPairs(l1_head);
+    retNode = addTwoNumbers(l1_head, l2_head);
     linked_list_traverse(retNode);
-    
-    //retNode = link_list_find_mid_ele(head);
-    //printf("The mid ele is %d\n", retNode->val);
-
-    //linked_list_traverse(retNode);
 }
