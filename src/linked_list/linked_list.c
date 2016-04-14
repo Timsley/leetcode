@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "typedef.h"
+#include <stdbool.h>
 #include "linked_list.h"
 
 
@@ -42,10 +42,33 @@ void linked_list_traverse(struct ListNode * pList)
         pTemp = pTemp->next;
     }
 }
+
+struct ListNode* linked_list_find_mid_ele(struct ListNode* head)
+{
+    struct ListNode* fast, *slow;
+
+    fast = head;
+    slow = head;
+
+    if(!head)
+        return NULL;
+
+    while(fast && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    
+    return slow;
+}
+
 #if 0
-/*
-**  This solution : The head point to head, not the first element
-*/
+/***************************************************************************************
+*****                                   206. Reverse Linked List
+*****       Reverse a singly linked list.
+*****       Hint:
+*****       A linked list can be reversed either iteratively or recursively. Could you implement both?
+****************************************************************************************/
 struct ListNode* reverseList(struct ListNode* head) 
 {
     if(!head || !head->next)
@@ -77,9 +100,12 @@ struct ListNode* reverseList(struct ListNode* head)
 }
 #endif
 
-/*
-**  This solution : The head point to the first element, not the head node
-*/
+/***************************************************************************************
+*****                                   206. Reverse Linked List
+*****       Reverse a singly linked list.
+*****       Hint:
+*****       A linked list can be reversed either iteratively or recursively. Could you implement both?
+****************************************************************************************/
 struct ListNode* reverseList(struct ListNode* head) 
 {
     struct ListNode* t;
@@ -105,32 +131,41 @@ struct ListNode* reverseList(struct ListNode* head)
     return head;
 }
 
-#if 0
+/***************************************************************************************
+*****                                   234. Palindrome Linked List
+*****       Given a singly linked list, determine if it is a palindrome.
+*****       Follow up:
+*****       Could you do it in O(n) time and O(1) space?
+****************************************************************************************/
 bool isPalindrome(struct ListNode* head) 
 {
-    struct ListNode* p = head;
-    struct ListNode* q;
-    int listSize = 0;
+    struct ListNode * midNode;
+    struct ListNode *leftList, *rightList;
 
-    if(!head)
-        return 0;
-
-    if(head->next == NULL)
-        return 1;
+    if(!head || !head->next)
+        return true;
     
-    while(p->next != NULL)
+    leftList = head;    
+    midNode = linked_list_find_mid_ele(head);
+
+    rightList = reverseList(midNode);
+
+    while(leftList && rightList)
     {
-        listSize++;
-        p = p->next;
+        if(leftList->val != rightList->val)
+            return false;
+        leftList = leftList->next;
+        rightList = rightList->next;
     }
 
-    q = p;
+    return true;
 }
-#endif
 
-/*
-Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
-*/
+/***************************************************************************************
+*****                                   21. Merge Two Sorted Lists
+*****       Merge two sorted linked lists and return it as a new list.
+*****       The new list should be made by splicing together the nodes of the first two lists.
+****************************************************************************************/
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) 
 {
     struct ListNode *head;
@@ -181,24 +216,6 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2)
     return ret;
 }
 
-struct ListNode* link_list_find_mid_ele(struct ListNode* head)
-{
-    struct ListNode* fast, *slow;
-
-    fast = head;
-    slow = head;
-
-    if(!head)
-        return NULL;
-
-    while(fast && fast->next)
-    {
-        fast = fast->next->next;
-        slow = slow->next;
-    }
-
-    return slow;
-}
 
 /***************************************************************************************
 *****                                   No. 328     Odd Even Linked List
@@ -342,7 +359,8 @@ struct ListNode* removeElements(struct ListNode* head, int val)
 *****       Given a linked list, swap every two adjacent nodes and return its head.
 *****       For example,
 *****       Given 1->2->3->4, you should return the list as 2->1->4->3.
-*****       Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
+*****       Your algorithm should use only constant space. You may not modify the values in the list, 
+*****       only nodes itself can be changed.
 ****************************************************************************************/
 struct ListNode* swapPairs(struct ListNode* head) 
 {
@@ -416,30 +434,30 @@ void addNodeToList(struct ListNode* list)
     }
 }
 
-void addTailNodeToList(struct ListNode* list, BOOL fgADD)
+void addTailNodeToList(struct ListNode* list, bool fgADD)
 {
     struct ListNode* temp;
 
     while(list)
     {
-        if(TRUE == fgADD)
+        if(true == fgADD)
         {
             list->val = list->val + 1;
-            fgADD = FALSE;
+            fgADD = false;
             if(list->val >= 10)
             {
                 list->val = list->val - 10;
-                fgADD = TRUE;
+                fgADD = true;
             }
             else
-                fgADD = FALSE;
+                fgADD = false;
             
             temp = list;
             list = list->next;
             
              if(!list)
             {
-                if(fgADD==TRUE)
+                if(fgADD==true)
                     addNodeToList(temp);
 
                 return;
@@ -452,7 +470,7 @@ void addTailNodeToList(struct ListNode* list, BOOL fgADD)
 
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 {
-    BOOL fgADD = FALSE;
+    bool fgADD = false;
     struct ListNode *l1_head, *l2_head;
     struct ListNode *last_point;
         
@@ -463,7 +481,7 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 
     while(l1 && l2)
     {
-        if(TRUE == fgADD)
+        if(true == fgADD)
             l1->val = l2->val = l1->val + l2->val + 1;
         else
             l1->val = l2->val = l1->val + l2->val;
@@ -471,10 +489,10 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
         if(l1->val >= 10)
         {
             l1->val = l2->val = l1->val - 10;
-            fgADD = TRUE;
+            fgADD = true;
         }
         else
-            fgADD = FALSE;
+            fgADD = false;
 
         last_point = l1;
         l1 = l1->next;
@@ -493,40 +511,44 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
         return l2_head;
     }
 
-    if(TRUE == fgADD)
+    if(true == fgADD)
         addNodeToList(last_point);
 
     return l1_head;
 }
 
+
+
+
 void link_list_main_test(void)
 {
-    //int i =0;
     struct ListNode * l1_head, * l2_head;
     struct ListNode * retNode;
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    linked_list_insert(2, l1);    
-    linked_list_insert(9, l1);    
-    linked_list_insert(9, l1);    
+    linked_list_insert(1, l1);    
     l1_head = l1->next;
 
+#if 0
     struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(9, l2);       
     linked_list_insert(9, l2);  
     l2_head = l2->next;
-    
-    //for(i=5; i<=13; i++)
-    {
-    //    linked_list_insert(i, head2);
-    }
+ #endif   
+
     linked_list_traverse(l1_head);
     printf("\n");
-    linked_list_traverse(l2_head);
+//    linked_list_traverse(l2_head);
 
     printf("\n\n");
     
   // retNode = mergeTwoLists(l1_head, l2_head);
-    retNode = addTwoNumbers(l1_head, l2_head);
-    linked_list_traverse(retNode);
+  
+
+    int ret = isPalindrome(l1_head);
+    printf("ret=%d\n", ret);
+  
+    //retNode = link_list_find_mid_ele(l1);
+    //printf("mid ele=%d\n", retNode->val);
+//    linked_list_traverse(retNode);
 }
