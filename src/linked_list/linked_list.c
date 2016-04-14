@@ -303,6 +303,56 @@ struct ListNode* deleteDuplicates(struct ListNode* head)
 ****************************************************************************************/
 struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB)
 {
+    struct ListNode *LA, *LB;    
+    struct ListNode *h1, *h2;
+    int lenA=0, lenB=0, step=0;
+
+    if(!headA || !headB)
+        return NULL;
+
+    LA = headA;
+    LB = headB;
+    
+    while(LA)
+    {
+        lenA++;
+        LA = LA->next;
+    }
+    
+    while(LB)
+    {
+        lenB++;
+        LB = LB->next;
+    }
+
+    if(lenA >= lenB)
+    {
+        step = lenA - lenB;
+        h1 = headA;
+        h2 = headB;
+    }
+    else
+    {
+        step = lenB - lenA;
+        h1 = headB;
+        h2 = headA;
+    }
+
+    while(h1 && step)
+    {
+        step--;
+        h1 = h1->next;
+    }
+
+    while(h1 && h2)
+    {
+        if(h1->val == h2->val)
+            return h1;
+
+        h1 = h1->next;
+        h2 = h2->next;
+    }
+    
     return NULL;
 }
 
@@ -527,28 +577,30 @@ void link_list_main_test(void)
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(1, l1);    
+    linked_list_insert(1, l1);    
+    linked_list_insert(3, l1);    
+    linked_list_insert(4, l1);    
     l1_head = l1->next;
 
-#if 0
+#if 1
     struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    linked_list_insert(6, l2);       
+    linked_list_insert(7, l2);       
+    linked_list_insert(8, l2);       
     linked_list_insert(9, l2);       
-    linked_list_insert(9, l2);  
+    linked_list_insert(3, l2);       
+    linked_list_insert(4, l2);       
     l2_head = l2->next;
  #endif   
 
     linked_list_traverse(l1_head);
     printf("\n");
-//    linked_list_traverse(l2_head);
+    linked_list_traverse(l2_head);
 
     printf("\n\n");
-    
-  // retNode = mergeTwoLists(l1_head, l2_head);
-  
 
-    int ret = isPalindrome(l1_head);
-    printf("ret=%d\n", ret);
-  
-    //retNode = link_list_find_mid_ele(l1);
-    //printf("mid ele=%d\n", retNode->val);
-//    linked_list_traverse(retNode);
+
+    retNode = getIntersectionNode(l1_head, l2_head);
+    linked_list_traverse(retNode);
+
 }
