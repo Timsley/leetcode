@@ -567,6 +567,31 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
     return l1_head;
 }
 
+/***************************************************************************************
+*****                             141. Linked List Cycle
+*****       Given a linked list, determine if it has a cycle in it.
+
+*****       Follow up:
+*****       Can you solve it without using extra space?
+****************************************************************************************/
+bool hasCycle(struct ListNode *head)
+{
+    struct ListNode *fast, *slow;
+
+    fast = head;
+    slow = head;
+
+    while(fast && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+
+        if(fast == slow)
+            return true;
+    }
+
+    return false;
+}
 
 
 
@@ -576,13 +601,13 @@ void link_list_main_test(void)
     struct ListNode * retNode;
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    linked_list_insert(1, l1);    
-    linked_list_insert(1, l1);    
-    linked_list_insert(3, l1);    
-    linked_list_insert(4, l1);    
+    //linked_list_insert(1, l1);    
+   // linked_list_insert(1, l1);    
+   // linked_list_insert(3, l1);    
+   // linked_list_insert(4, l1);    
     l1_head = l1->next;
 
-#if 1
+#if 0
     struct ListNode * l2 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(6, l2);       
     linked_list_insert(7, l2);       
@@ -595,12 +620,11 @@ void link_list_main_test(void)
 
     linked_list_traverse(l1_head);
     printf("\n");
-    linked_list_traverse(l2_head);
+    //linked_list_traverse(l2_head);
 
     printf("\n\n");
 
-
-    retNode = getIntersectionNode(l1_head, l2_head);
-    linked_list_traverse(retNode);
+    //retNode = hasCycle(l1_head);
+    //linked_list_traverse(retNode);
 
 }
