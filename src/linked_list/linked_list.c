@@ -691,6 +691,68 @@ struct ListNode* partition(struct ListNode* head, int x)
     return ret;
 }
 
+/***************************************************************************************
+*****                             92. Reverse Linked List II 
+*****       Reverse a linked list from position m to n. Do it in-place and in one-pass.
+*****       
+*****       For example:
+*****       Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+*****       
+*****       return 1->4->3->2->5->NULL.
+*****       
+*****       Note:
+*****       Given m, n satisfy the following condition:
+*****       1 = m = n = length of list.
+****************************************************************************************/
+struct ListNode* reverseBetween(struct ListNode* head, int m, int n) 
+{
+    struct ListNode *p, *q, *t;
+    struct ListNode *h1, *h2;           // h1 : remember the pointer before m'th; h2 : remember the m'th pointer
+    int count = 1;
+
+    if(!head)
+        return NULL;
+
+    p = head;
+    h1 = p;
+    
+    while(p && count<m)
+    {
+        h1 = p;
+        p = p->next;
+        count++;
+    }
+
+    if(!p)
+        return head;
+    else
+        q = p->next;
+
+    h2 = p;
+    
+    while(q && count<n)
+    {
+        t = q->next;
+        q->next = p;
+        p = q;
+        q = t;
+        count++;
+    }
+
+    if(h1 == h2)                // if m=1
+    {
+        h1->next = q;
+        head = p;
+    }
+    else
+    {
+        h1->next = p;
+        h2->next = q;
+    }
+
+    return head;
+}
+
 void link_list_main_test(void)
 {
     struct ListNode * l1_head, * l2_head;
@@ -698,6 +760,10 @@ void link_list_main_test(void)
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
     linked_list_insert(1, l1);    
+    linked_list_insert(2, l1); 
+    linked_list_insert(3, l1); 
+   // linked_list_insert(4, l1); 
+   // linked_list_insert(5, l1); 
     l1_head = l1->next;
 
 #if 0
@@ -717,7 +783,7 @@ void link_list_main_test(void)
 
     printf("\n\n");
 
-    retNode = partition(l1_head, 2);
+    retNode = reverseBetween(l1_head, 1, 3);
     linked_list_traverse(retNode);
 
 }
