@@ -639,6 +639,57 @@ struct ListNode *detectCycle(struct ListNode *head)
         return NULL;
 }
 
+/***************************************************************************************
+*****                             86. Partition List 
+*****       Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+*****       
+*****       You should preserve the original relative order of the nodes in each of the two partitions.
+*****       
+*****       For example,
+*****       Given 1->4->3->2->5->2 and x = 3,
+*****       return 1->2->2->4->3->5.
+****************************************************************************************/
+struct ListNode* partition(struct ListNode* head, int x) 
+{
+    struct ListNode *leftHead, *rightHead, *left, *right;
+    struct ListNode *ret;
+
+    if(!head)
+        return NULL;
+    
+    leftHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+    rightHead = (struct ListNode *)malloc(sizeof(struct ListNode));
+
+    left = leftHead;
+    right = rightHead;
+
+    while(head)
+    {
+        if(head->val < x)
+        {
+            left->next = head;
+            left = left->next;
+        }
+        else
+        {
+            right->next = head;
+            right = right->next;
+        }
+        head = head->next;
+    }
+
+    right->next = NULL;
+    left->next = rightHead->next;
+
+    ret = leftHead->next;
+    
+    if(leftHead)
+        free(leftHead);
+    if(rightHead)
+        free(rightHead);
+
+    return ret;
+}
 
 void link_list_main_test(void)
 {
@@ -646,10 +697,7 @@ void link_list_main_test(void)
     struct ListNode * retNode;
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
-    //linked_list_insert(1, l1);    
-   // linked_list_insert(1, l1);    
-   // linked_list_insert(3, l1);    
-   // linked_list_insert(4, l1);    
+    linked_list_insert(1, l1);    
     l1_head = l1->next;
 
 #if 0
@@ -669,7 +717,7 @@ void link_list_main_test(void)
 
     printf("\n\n");
 
-    //retNode = hasCycle(l1_head);
-    //linked_list_traverse(retNode);
+    retNode = partition(l1_head, 2);
+    linked_list_traverse(retNode);
 
 }
