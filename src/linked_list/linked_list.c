@@ -805,10 +805,102 @@ struct ListNode* rotateRight(struct ListNode* head, int k)
     }
 
     q->next = head;
-
+    
     return ret;
 }
 
+/***************************************************************************************
+*****                             82. Remove Duplicates from Sorted List II
+*****       Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+*****      
+*****       For example,
+*****       Given 1->2->3->3->4->4->5, return 1->2->5.
+*****       Given 1->1->1->2->3, return 2->3.
+****************************************************************************************/
+struct ListNode* deleteDuplicates2(struct ListNode* head) 
+{
+    struct ListNode *p, *q, *ret;
+    struct ListNode * list = (struct ListNode *)malloc(sizeof(struct ListNode));
+
+    p = head;
+    q = list;
+
+    while(p)
+    {
+        if(p->next && (p->val == p->next->val))
+        {
+            while(p->next && (p->val == p->next->val))
+            {
+                p = p->next;
+            }
+        }
+        else
+        {
+            q->next = p;
+            q = p;
+        }
+        p = p->next;
+    }
+
+    if(q)
+        q->next = NULL;
+
+    ret = list->next;
+    
+    if(list)
+        free(list);
+
+    return ret;
+#if 0
+    struct ListNode *p, *q, *ret;
+
+    if(!head)
+        return head;
+
+    p = ret = head;
+    q = head->next;
+
+    if(!q)
+        return head;
+
+    while(p && p->next)
+    {
+        if(p->val != p->next->val)
+            break;
+        
+        printf("111p->val=%d\n", p->val);
+        p = p->next;
+        ret = p->next;
+    }
+
+    if(p != ret)
+        p = p->next;
+    
+    printf("p->val=%d\n", ret->val);
+
+    while(q && q->next)
+    {
+        if(q->val != q->next->val)
+        {
+            p->next = q;
+            p = q;
+            q = q->next;
+        }
+        else
+        {
+            while(q->next &&(q->val == q->next->val))
+            {
+                q = q->next;
+            }
+
+            p->next = q->next;
+            q = q->next;
+        }
+    }
+
+    return ret;
+#endif    
+}
 
 void link_list_main_test(void)
 {
@@ -816,11 +908,10 @@ void link_list_main_test(void)
     struct ListNode * retNode;
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
+    linked_list_insert(1, l1);   
     linked_list_insert(1, l1);    
-    linked_list_insert(2, l1); 
-    linked_list_insert(3, l1); 
-   // linked_list_insert(4, l1); 
-   // linked_list_insert(5, l1); 
+    linked_list_insert(1, l1);   
+    linked_list_insert(2, l1);
     l1_head = l1->next;
 
 #if 0
@@ -840,7 +931,7 @@ void link_list_main_test(void)
 
     printf("\n\n");
 
-    retNode = rotateRight(l1_head, 10);
+    retNode = deleteDuplicates2(l1_head);
     linked_list_traverse(retNode);
 
 }
