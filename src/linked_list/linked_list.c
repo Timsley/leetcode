@@ -753,6 +753,63 @@ struct ListNode* reverseBetween(struct ListNode* head, int m, int n)
     return head;
 }
 
+/***************************************************************************************
+*****                             61. Rotate List 
+*****       Given a list, rotate the list to the right by k places, where k is non-negative.
+*****       
+*****       For example:
+*****       Given 1->2->3->4->5->NULL and k = 2,
+*****       return 4->5->1->2->3->NULL.
+****************************************************************************************/
+struct ListNode* rotateRight(struct ListNode* head, int k) 
+{
+    struct ListNode *p, *t, *q, *ret;
+    int length = 0;
+
+    if(!head)
+        return NULL;
+
+    p = head;
+
+    while(p)
+    {
+        p = p->next;
+        length++;
+    }
+
+    p = head;
+    
+    if(k>length)
+        k = length - k%length;
+    else
+        k = (length-k)%length;
+
+    while(p && k>1)
+    {
+        q = p;
+        p = p->next;
+        k--;
+    }
+
+    if(!p->next  || k == 0)
+        return head;
+    
+    ret = t = p->next;
+    
+    p->next = NULL;
+
+    while(t)
+    {
+        q = t;
+        t = t->next;
+    }
+
+    q->next = head;
+
+    return ret;
+}
+
+
 void link_list_main_test(void)
 {
     struct ListNode * l1_head, * l2_head;
@@ -783,7 +840,7 @@ void link_list_main_test(void)
 
     printf("\n\n");
 
-    retNode = reverseBetween(l1_head, 1, 3);
+    retNode = rotateRight(l1_head, 10);
     linked_list_traverse(retNode);
 
 }
