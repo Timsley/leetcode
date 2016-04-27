@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "typedef.h"
+#include <stdbool.h>
 
 
 
@@ -31,23 +31,68 @@ void printDoubleArray(int **array, int row, int col)
     printf("****************\n");
 }
 
-
-BOOL containsDuplicate(int* nums, int numsSize) 
+/***************************************************************************************
+*****                             217. Contains Duplicate
+*****       Given an array of integers, find if the array contains any duplicates. Your function should return true 
+*****       if any value appears at least twice in the array, and it should return false if every element is distinct.
+****************************************************************************************/
+bool containsDuplicate(int* nums, int numsSize) 
 {
     int i=0, j=0;
-    BOOL flag = FALSE;
+    bool flag = false;
     
     for(i=0; i<numsSize; i++)
     {
         for(j=i+1; j<numsSize; j++)
         {
             if(nums[i] == nums[j])
-                flag = TRUE;
+                flag = true;
         }
     }
     return flag;
 }
 
+/***************************************************************************************
+*****                             66. Plus One
+*****       Given a non-negative number represented as an array of digits, plus one to the number.
+*****       
+*****       The digits are stored such that the most significant digit is at the head of the list.
+****************************************************************************************/
+int* plusOne(int* digits, int digitsSize, int* returnSize)
+{
+    int i = 0, j=0;
+    int *ret;
+
+    for(i=digitsSize-1; i>=0; i--)
+        if(digits[i] != 9)
+            break;
+
+    if(i == -1)
+    {
+        ret = (int *)malloc(sizeof(int)*(digitsSize+1));
+        memset(ret, 0, sizeof(int)*(digitsSize+1));
+        ret[0] = 1;
+        *returnSize = digitsSize+1;
+    }
+    else
+    {
+        for(j=digitsSize-1; j>i; j--)
+           digits[j] = 0;  
+        
+        digits[i]++;
+        *returnSize = digitsSize;
+        ret = digits;
+    }
+
+    return ret;
+}
+
+/***************************************************************************************
+*****                             66. Plus One
+*****       Given a non-negative number represented as an array of digits, plus one to the number.
+*****       
+*****       The digits are stored such that the most significant digit is at the head of the list.
+****************************************************************************************/
 int* plusOne2(int* digits, int digitsSize, int* returnSize) 
 {
     int i = 0;
@@ -89,35 +134,15 @@ int* plusOne2(int* digits, int digitsSize, int* returnSize)
     return array;
 }
 
-int* plusOne(int* digits, int digitsSize, int* returnSize)
-{
-    int i = 0, j=0;
-    int *ret;
-
-    for(i=digitsSize-1; i>=0; i--)
-        if(digits[i] != 9)
-            break;
-
-    if(i == -1)
-    {
-        ret = (int *)malloc(sizeof(int)*(digitsSize+1));
-        memset(ret, 0, sizeof(int)*(digitsSize+1));
-        ret[0] = 1;
-        *returnSize = digitsSize+1;
-    }
-    else
-    {
-        for(j=digitsSize-1; j>i; j--)
-           digits[j] = 0;  
-        
-        digits[i]++;
-        *returnSize = digitsSize;
-        ret = digits;
-    }
-
-    return ret;
-}
-
+/***************************************************************************************
+*****                             189. Rotate Array
+*****       Rotate an array of n elements to the right by k steps.
+*****       
+*****       For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
+*****       
+*****       Note:
+*****       Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem
+****************************************************************************************/
 void rotate(int* nums, int numsSize, int k)
 {
     int i=0;
@@ -134,6 +159,19 @@ void rotate(int* nums, int numsSize, int k)
     free(array);
 }
 
+/***************************************************************************************
+*****                             27. Remove Element
+*****       Given an array and a value, remove all instances of that value in place and return the new length.
+*****       
+*****       Do not allocate extra space for another array, you must do this in place with constant memory.
+*****       
+*****       The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+*****       
+*****       Example:
+*****       Given input array nums = [3,2,2,3], val = 3
+*****       
+*****       Your function should return length = 2, with the first two elements of nums being 2.
+****************************************************************************************/
 int removeElement(int* nums, int numsSize, int val)
 {    
     int i = 0, j = 0;
@@ -157,6 +195,18 @@ int removeElement(int* nums, int numsSize, int val)
     return j;
 }
 
+/***************************************************************************************
+*****                             26. Remove Duplicates from Sorted Array
+*****       Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+*****       
+*****       Do not allocate extra space for another array, you must do this in place with constant memory.
+*****       
+*****       For example,
+*****       Given input array nums = [1,1,2],
+*****       
+*****       Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. 
+*****       It doesn't matter what you leave beyond the new length.
+****************************************************************************************/
 int removeDuplicates(int* nums, int numsSize)
 {
     int i = 0;
@@ -177,6 +227,12 @@ int removeDuplicates(int* nums, int numsSize)
         return count+1;
 }
 
+/***************************************************************************************
+*****                             228. Summary Ranges
+*****       Given a sorted integer array without duplicates, return the summary of its ranges.
+*****       
+*****       For example, given [0,1,2,4,5,7], return ["0->2","4->5","7"].
+****************************************************************************************/
 char** summaryRanges(int* nums, int numsSize, int* returnSize) 
 {
     int i = 0;
@@ -221,6 +277,12 @@ char** summaryRanges(int* nums, int numsSize, int* returnSize)
     return array;
 }
 
+/***************************************************************************************
+*****                             169. Majority Element 
+*****       Given an array of size n, find the majority element. The majority element is the element that appears more than ? n/2 ? times.
+*****       
+*****       You may assume that the array is non-empty and the majority element always exist in the array.
+****************************************************************************************/
 int majorityElement(int* nums, int numsSize) 
 {
     int i, num;
@@ -245,6 +307,14 @@ int majorityElement(int* nums, int numsSize)
     return num;
 }
 
+/***************************************************************************************
+*****                             88. Merge Sorted Array
+*****       Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+*****       
+*****       Note:
+*****       You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional 
+*****       elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
+****************************************************************************************/
 void merge(int* nums1, int m, int* nums2, int n) 
 {
     while(m>0 && n>0)
@@ -274,18 +344,22 @@ void merge(int* nums1, int m, int* nums2, int n)
     }
 }
 
+/***************************************************************************************
+*****                             73. Set Matrix Zeroes
+*****       Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+****************************************************************************************/
 void setZeroes(int** matrix, int matrixRowSize, int matrixColSize) 
 {
     int i=0, j=0;
 
-    BOOL row[matrixRowSize];
-    BOOL col[matrixColSize];    
+    bool row[matrixRowSize];
+    bool col[matrixColSize];    
 
     for(i=0; i<matrixRowSize; i++) 
-        row[i] = FALSE;
+        row[i] = false;
     
     for(j=0; j<matrixColSize; j++) 
-        col[j] = FALSE;
+        col[j] = false;
 
     for(i=0; i<matrixRowSize; i++)
     {
@@ -293,15 +367,15 @@ void setZeroes(int** matrix, int matrixRowSize, int matrixColSize)
         {
             if(matrix[i][j] == 0)
             {
-                row[i] = TRUE;
-                col[j]= TRUE;
+                row[i] = true;
+                col[j]= true;
             }
         }
     }
 
     for(i=0; i<matrixRowSize; i++)
     {
-        if(row[i] == TRUE)
+        if(row[i] == true)
         {
             for(j=0; j <matrixColSize; j++)
                 matrix[i][j] = 0;
@@ -310,7 +384,7 @@ void setZeroes(int** matrix, int matrixRowSize, int matrixColSize)
 
     for(j=0; j<matrixColSize; j++)
     {
-        if(col[j] == TRUE)
+        if(col[j] == true)
         {
             for(i=0; i <matrixRowSize; i++)
                 matrix[i][j] = 0; 
@@ -318,7 +392,15 @@ void setZeroes(int** matrix, int matrixRowSize, int matrixColSize)
     }
 }
 
-
+/***************************************************************************************
+*****                             48. Rotate Image
+*****       You are given an n x n 2D matrix representing an image.
+*****       
+*****       Rotate the image by 90 degrees (clockwise).
+*****       
+*****       Follow up:
+*****       Could you do this in-place?
+****************************************************************************************/
 void rotateImage(int** matrix, int matrixRowSize, int matrixColSize)
 {
     int i, j;
@@ -355,22 +437,40 @@ void rotateImage(int** matrix, int matrixRowSize, int matrixColSize)
     }
 }
 
-BOOL containsNearbyDuplicate(int* nums, int numsSize, int k) 
+/***************************************************************************************
+*****                             219. Contains Duplicate II 
+*****       Given an array of integers and an integer k, find out whether there are two distinct indices i and j 
+*****       in the array such that nums[i] = nums[j] and the difference between i and j is at most k.
+****************************************************************************************/
+bool containsNearbyDuplicate(int* nums, int numsSize, int k) 
 {
     int i=0, j=0;
-    BOOL flag = FALSE;
+    bool flag = false;
     
     for(i=0; i<numsSize; i++)
     {
         for(j=i+1; j<numsSize; j++)
         {
             if((nums[i] == nums[j]) && ((j-i)<=k))
-                flag = TRUE;
+                flag = true;
         }
     }
     return flag;
 }
 
+/***************************************************************************************
+*****                             35. Search Insert Position
+*****       Given a sorted array and a target value, return the index if the target is found. If not, 
+*****       return the index where it would be if it were inserted in order.
+*****       
+*****       You may assume no duplicates in the array.
+*****       
+*****       Here are few examples.
+*****       [1,3,5,6], 5 ¡ú 2
+*****       [1,3,5,6], 2  ¡ú 1
+*****       [1,3,5,6], 7 ¡ú  4
+*****       [1,3,5,6], 0  ¡ú 0
+****************************************************************************************/
 int searchInsert(int* nums, int numsSize, int target) 
 {
     int i = 0;
@@ -380,14 +480,28 @@ int searchInsert(int* nums, int numsSize, int target)
         if(nums[i] >= target)
             return i;
     }
+
+    return i;
 }
 
+/***************************************************************************************
+*****                             34. Search for a Range 
+*****       Given a sorted array of integers, find the starting and ending position of a given target value.
+*****       
+*****       Your algorithm's runtime complexity must be in the order of O(log n).
+*****       
+*****       If the target is not found in the array, return [-1, -1].
+*****       
+*****       For example,
+*****       Given [5, 7, 7, 8, 8, 10] and target value 8,
+*****       return [3, 4].
+****************************************************************************************/
 int* searchRange(int* nums, int numsSize, int target, int* returnSize) 
 {
     int i=0;
     int start=0, end=0;
-    BOOL startFlag = FALSE;
-    BOOL endFlag = FALSE;    
+    bool startFlag = false;
+    bool endFlag = false;    
     
     int * array = (int *)malloc(sizeof(int *)*2);
 
@@ -396,7 +510,7 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize)
         if(target == nums[i])
         {
             start = i;
-            startFlag = TRUE;
+            startFlag = true;
             break;
         }
     }
@@ -406,14 +520,14 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize)
         if(target == nums[i])
         {
             end = i;
-            endFlag = TRUE;
+            endFlag = true;
             break;
         }
     }
 
     *returnSize = 2;
 
-    if((TRUE ==startFlag) && (TRUE ==endFlag))
+    if((true ==startFlag) && (true ==endFlag))
     {
         array[0] = start;
         array[1] = end;    
@@ -427,7 +541,16 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize)
     return array;
 }
 
-
+/***************************************************************************************
+*****                             33. Search in Rotated Sorted Array
+*****       Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+*****       
+*****       (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+*****       
+*****       You are given a target value to search. If found in the array return its index, otherwise return -1.
+*****       
+*****       You may assume no duplicate exists in the array.
+****************************************************************************************/
 int search(int* nums, int numsSize, int target) 
 {
     int l = 0;
@@ -467,67 +590,53 @@ int search(int* nums, int numsSize, int target)
 #endif
 }
 
-/**
- * Return an array of arrays of size *returnSize.
- * The sizes of the arrays are returned as *columnSizes array.
- * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
- */
-int** generate(int numRows, int** columnSizes, int* returnSize) 
+/***************************************************************************************
+*****                             81. Search in Rotated Sorted Array II
+*****       Follow up for "Search in Rotated Sorted Array":
+*****       What if duplicates are allowed?
+*****       
+*****       Would this affect the run-time complexity? How and why?
+*****       
+*****       Write a function to determine if a given target is in the array.
+****************************************************************************************/
+bool search2(int* nums, int numsSize, int target) 
 {
-    int i, j;
-
-    int ** returnArray = (int **)malloc(sizeof(int *)*numRows);
-    int *columnSizesArray = malloc(sizeof(int)*numRows);
-    
-    for(i=0; i<numRows; i++)
-        returnArray[i] = (int *)malloc(sizeof(int)*numRows);
-        
-    if(numRows < 1)
-        return returnArray;
-    
-    for(i=0; i<numRows; i++)
+    int start=0, end=numsSize-1;
+    while(start<=end)
     {
-        printf("111\n");
-        columnSizesArray[i] = i+1;
-        printf("columnSizesArray[%d]=%d\n", i,columnSizesArray[i]);
-        for(j=0; j<=i; j++)
+        int mid = start + (end-start)/2;
+        if(nums[mid] == target)
+            return true;
+        if(nums[mid]>nums[start])
         {
-            if(i == 0)
-                returnArray[i][j] = 1;
-            else if(j == 0)
-                returnArray[i][j] = 0 + returnArray[i-1][j];
-            else if(j == (numRows-1))
-                returnArray[i][j] = returnArray[i-1][j-1] + 0;
+            if((target>=nums[start]) && (target<nums[mid]))
+                end = mid-1;
             else
-                returnArray[i][j] = returnArray[i-1][j-1] + returnArray[i-1][j];
-            printf("a[%d][%d]=%d    ", i,j, returnArray[i][j]);
-            *returnSize++;
+                start = mid+1;
         }
-        printf("\n");
+        else if(nums[mid]<nums[start])
+        {
+            if((target>nums[mid]) && (target<=nums[end]))
+                start = mid+1;
+            else
+                end = mid-1;
+        }
+        else
+            start++;
     }
-    
-    printf("222\n");
-
-    *columnSizes = columnSizesArray;
-    printf("returnSize=%d\n", *returnSize);
-
-    return returnArray;
+    return false;
 }
 
-/**
- Given an index k, return the kth row of the Pascal's triangle.
- 
- For example, given k = 3,
- Return [1,3,3,1].
-
- * Return an array of size *returnSize.
- * Note: The returned array must be malloced, assume caller calls free().
- */
-int* getRow(int rowIndex, int* returnSize) 
-{
-    
-}
-
+/***************************************************************************************
+*****                             283. Move Zeroes
+*****       Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+*****       
+*****       For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums should be [1, 3, 12, 0, 0].
+*****       
+*****       Note:
+*****       You must do this in-place without making a copy of the array.
+*****       Minimize the total number of operations.
+****************************************************************************************/
 void moveZeroes(int* nums, int numsSize) 
 {
     int i=0, j=0;
@@ -549,79 +658,116 @@ void moveZeroes(int* nums, int numsSize)
         ++j;  
     } 
 }
-#if 0
-void moveZeroes(int* nums, int numsSize) 
-{
-    int i=0, j=0;
 
-    while(j<numsSize)
-    {
-        if(nums[j]!=0)
-            nums[i++] = nums[j];
-        j++;
-    }
-
-    while(i<numsSize)
-    {
-        nums[i++] = 0;
-    }    
-}
-#endif
-
-/*********************************************
-********   Num : 74
-********   Title  : Search a 2D Matrix
-********   Tag  : Array/Binary Search
-**********************************************/
-BOOL searchMatrix(int** matrix, int matrixRowSize, int matrixColSize, int target)
+/***************************************************************************************
+*****                             74. Search a 2D Matrix
+*****       Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+*****       
+*****       Integers in each row are sorted from left to right.
+*****       The first integer of each row is greater than the last integer of the previous row.
+*****       For example,
+*****       
+*****       Consider the following matrix:
+*****       
+*****       [
+*****         [1,   3,  5,  7],
+*****         [10, 11, 16, 20],
+*****         [23, 30, 34, 50]
+*****       ]
+*****       Given target = 3, return true.
+****************************************************************************************/
+bool searchMatrix(int** matrix, int matrixRowSize, int matrixColSize, int target)
 {
     int row=0, col=matrixColSize-1;
 
     while(row<matrixRowSize && col>=0)
     {
         if(target == matrix[row][col])
-            return TRUE;
+            return true;
         else if(target > matrix[row][col])
             row++;
         else
             col--;
     }
 
-    return FALSE;
+    return false;
 }
 
-/*
-Given an array of n positive integers and a positive integer s, find the minimal length of a subarray of which the sum ¡Ý s. 
-If there isn't one, return 0 instead.
+/***************************************************************************************
+*****                             118. Pascal's Triangle
+*****       Given numRows, generate the first numRows of Pascal's triangle.
+*****       
+*****       For example, given numRows = 5,
+*****       Return
+*****       
+*****       [
+*****            [1],
+*****           [1,1],
+*****          [1,2,1],
+*****         [1,3,3,1],
+*****        [1,4,6,4,1]
+*****       ]
+*****
+*****       Return an array of arrays.
+*****       The sizes of the arrays are returned as *columnSizes array.
+*****       Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+****************************************************************************************/
+int** generate(int numRows, int** columnSizes) 
+{
+    int i=0;    
+    int j=0;
 
-For example, given the array [2,3,1,2,4,3] and s = 7,
-the subarray [4,3] has the minimal length under the problem constraint.
+    if(numRows == 0)
+        return 0;
 
-*/
-int minSubArrayLen(int s, int* nums, int numsSize)
+    int ** returnArray = (int **)malloc(sizeof(int *) * numRows);
+    *columnSizes = (int *)malloc(sizeof(int)*numRows);
+
+    for(i=0; i<numRows; i++)
+    {
+        (*columnSizes)[i] = i+1;
+        
+        returnArray[i] = (int *)malloc(sizeof(int) * (i+1));
+
+        for(j=0; j<i+1; j++)
+        {
+            if( (0 == j)  || (i == j) )
+                returnArray[i][j] = 1;
+            else
+                returnArray[i][j] = returnArray[i-1][j-1] + returnArray[i-1][j];
+        }
+        
+    }
+
+    return returnArray;
+}
+
+
+/***************************************************************************************
+*****                             119. Pascal's Triangle II
+*****       Given an index k, return the kth row of the Pascal's triangle.
+*****       
+*****       For example, given k = 3,
+*****       Return [1,3,3,1].
+*****       
+*****       Return an array of size *returnSize.
+*****       Note: The returned array must be malloced, assume caller calls free().
+****************************************************************************************/
+int* getRow(int rowIndex, int* returnSize) 
 {
     
-}   
+}
 
-#define ROW     3
+
+#define ROW     6
 #define COL      4
 
 void array_main_test(void)
 {
-    int array[] = { 0,1,0,3,32,0,0,45}; 
-    int len = sizeof(array)/sizeof(array[0]);
-    //int ret = search(array, len, 2);
-    //printf("ret=%d\n", ret);
-#if 0
-    moveZeroes(array, len);
-    //int **matrix;
-    printArray(array, len);
-    
-    //generate(1, matrix, &size);
-    //printDoubleArray(matrix, ROW, COL);
-#endif
+    //int array[] = { 0,1,0,3,32,0,0,45}; 
+    //int len = sizeof(array)/sizeof(array[0]);
 
-#if 1
+#if 0
     int doubleArray[ROW][COL] = {
                                     {1,2,3,4},
                                     {5,6,7,8},
@@ -642,17 +788,17 @@ void array_main_test(void)
     for(i=0; i<ROW; i++)
         matrix[i] = doubleArray[i];
 
-    printf("ret=%d\n", searchMatrix(matrix, ROW, COL, 4));
+    //printf("ret=%d\n", searchMatrix(matrix, ROW, COL, 4));
 #endif
 
-#if 0
-
-    generate(3, matrix, &len);
-    printDoubleArray(matrix, ROW, COL);
-
-//    rotateImage(matrix, ROW, COL);
-
-//    printDoubleArray(matrix, COL, ROW);
-#endif    
+    int i=0;
+    int ** returnArray = (int **)malloc(sizeof(int *) * ROW);
+    int ** columnSizes = (int **)malloc(sizeof(int *) * ROW);
+    returnArray = generate(6, columnSizes);
+    
+    for(i=0; i<ROW; i++)
+    {
+        printArray(returnArray[i], (*columnSizes)[i]);
+        printf("\n");
+    }
 }
-

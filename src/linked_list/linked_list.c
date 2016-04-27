@@ -635,8 +635,8 @@ struct ListNode *detectCycle(struct ListNode *head)
             slow = slow->next;
         }
     }
-    else
-        return NULL;
+    
+    return NULL;
 }
 
 /***************************************************************************************
@@ -851,60 +851,12 @@ struct ListNode* deleteDuplicates2(struct ListNode* head)
         free(list);
 
     return ret;
-#if 0
-    struct ListNode *p, *q, *ret;
-
-    if(!head)
-        return head;
-
-    p = ret = head;
-    q = head->next;
-
-    if(!q)
-        return head;
-
-    while(p && p->next)
-    {
-        if(p->val != p->next->val)
-            break;
-        
-        printf("111p->val=%d\n", p->val);
-        p = p->next;
-        ret = p->next;
-    }
-
-    if(p != ret)
-        p = p->next;
-    
-    printf("p->val=%d\n", ret->val);
-
-    while(q && q->next)
-    {
-        if(q->val != q->next->val)
-        {
-            p->next = q;
-            p = q;
-            q = q->next;
-        }
-        else
-        {
-            while(q->next &&(q->val == q->next->val))
-            {
-                q = q->next;
-            }
-
-            p->next = q->next;
-            q = q->next;
-        }
-    }
-
-    return ret;
-#endif    
 }
 
 void link_list_main_test(void)
 {
-    struct ListNode * l1_head, * l2_head;
+    struct ListNode * l1_head;
+//    struct ListNode * l2_head;
     struct ListNode * retNode;
     
     struct ListNode * l1 = (struct ListNode *)malloc(sizeof(struct ListNode));
