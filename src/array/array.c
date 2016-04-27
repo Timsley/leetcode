@@ -755,11 +755,29 @@ int** generate(int numRows, int** columnSizes)
 ****************************************************************************************/
 int* getRow(int rowIndex, int* returnSize) 
 {
-    
+    int i=0, j=0;    
+
+    int ** returnArray = (int **)malloc(sizeof(int *) * (rowIndex+1));
+
+    for(i=0; i<rowIndex+1; i++)
+    {
+        returnArray[i] = (int *)malloc(sizeof(int) * (i+1));
+
+        for(j=0; j<i+1; j++)
+        {
+            if( (0 == j)  || (i == j) )
+                returnArray[i][j] = 1;
+            else
+                returnArray[i][j] = returnArray[i-1][j-1] + returnArray[i-1][j];
+        }        
+    }
+
+    *returnSize = rowIndex + 1;
+    return returnArray[rowIndex];    
 }
 
 
-#define ROW     6
+#define ROW     4
 #define COL      4
 
 void array_main_test(void)
@@ -791,6 +809,7 @@ void array_main_test(void)
     //printf("ret=%d\n", searchMatrix(matrix, ROW, COL, 4));
 #endif
 
+#if 0
     int i=0;
     int ** returnArray = (int **)malloc(sizeof(int *) * ROW);
     int ** columnSizes = (int **)malloc(sizeof(int *) * ROW);
@@ -801,4 +820,10 @@ void array_main_test(void)
         printArray(returnArray[i], (*columnSizes)[i]);
         printf("\n");
     }
+#endif
+
+    int arraySize = 0;
+    int * returnArray = (int *)malloc(sizeof(int) * 5);
+    returnArray = getRow(5, &arraySize);
+    printArray(returnArray, arraySize);
 }
