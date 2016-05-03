@@ -776,6 +776,46 @@ int* getRow(int rowIndex, int* returnSize)
     return returnArray[rowIndex];    
 }
 
+/***************************************************************************************
+*****                             238. Product of Array Except Self 
+*****       Given an array of n integers where n > 1, nums, return an array output such that output[i] is equal 
+*****       to the product of all the elements of nums except nums[i].
+*****       
+*****       Solve it without division and in O(n).
+*****       
+*****       For example, given [1,2,3,4], return [24,12,8,6].
+*****       
+*****       Follow up:
+*****       Could you solve it with constant space complexity? (Note: The output array does not count as extra space for 
+*****       the purpose of space complexity analysis.)
+****************************************************************************************/
+int* productExceptSelf(int* nums, int numsSize, int* returnSize) 
+{
+    int i=0, temp=1;
+    
+    *returnSize = numsSize;
+    
+    int *result = (int *)malloc(sizeof(int)*numsSize);    
+    result[0] = 1;
+    
+    // remember the  product from left to right, such as : result[0]=1, 
+    // result[1]=1*result[0]=1, result[2]=2*result[1]=2, result[3]=3*result[2]=6
+    for(i=1; i<numsSize; i++)                   
+    {
+        result[i] = nums[i-1] * result[i-1];
+    }
+
+    // The result[i] is equal to sum of the left[i] and right[i], and left[i] mean the sum of product from left to right,
+    // and right[i] mean the sum of product from right to left
+    for(i=numsSize-1; i>=0; i--) 
+    {
+        result[i] *= temp;
+        temp *= nums[i];
+    }
+
+    return result;
+}
+
 
 #define ROW     4
 #define COL      4
@@ -821,9 +861,19 @@ void array_main_test(void)
         printf("\n");
     }
 #endif
-
+#if 0
     int arraySize = 0;
     int * returnArray = (int *)malloc(sizeof(int) * 5);
     returnArray = getRow(5, &arraySize);
+    printArray(returnArray, arraySize);
+#endif
+
+    int array[] = { 1,2,3, 4 }; 
+    int len = sizeof(array)/sizeof(array[0]);
+
+    int arraySize = 0;    
+    int * returnArray = (int *)malloc(sizeof(int) * len);
+    
+    returnArray = productExceptSelf(array, len, &arraySize);
     printArray(returnArray, arraySize);
 }
