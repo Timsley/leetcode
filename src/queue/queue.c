@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "queue.h"
 
-
+#if 0
 /***************************************************************************************
 *****                             232. Implement Queue using Stacks 
 *****       Implement the following operations of a queue using stacks.
@@ -60,6 +60,8 @@ void queueDestroy(Queue *queue)
 {
     
 }
+
+#endif
 
 
 

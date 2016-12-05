@@ -5,8 +5,8 @@
 #include "stack.h"
 
 
-//typedef int ElemType;
-typedef char ElemType;
+typedef int ElemType;
+//typedef char ElemType;
 
 typedef struct STACK_T 
 {
@@ -87,7 +87,7 @@ int stack_traverse(STACK * stack)
 
     while(stack && stack->next)
     {
-        printf("element=%c\n", stack->next->value);
+        printf("element=%d\n", stack->next->value);
         stack = stack->next;
     }
 
@@ -151,6 +151,90 @@ bool isValid(char* s)
         return false;
 }
 
+
+/***************************************************************************************
+*****                             232. Implement Queue using Stacks
+*****       Implement the following operations of a queue using stacks.
+*****       push(x) -- Push element x to the back of queue.
+*****       pop() -- Removes the element from in front of queue.
+*****       peek() -- Get the front element.
+*****       empty() -- Return whether the queue is empty.
+*****       Notes:
+*****       You must use only standard operations of a stack -- which means only push to top, peek/pop 
+*****       from top, size, and is empty operations are valid.
+*****       Depending on your language, stack may not be supported natively. You may simulate a stack 
+*****       by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+*****       You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
+****************************************************************************************/
+typedef struct {
+    STACK * stackA;
+    STACK * stackB;
+} Queue;
+
+//Queue * queue;
+
+/* Create a queue */
+void queueCreate(Queue *queue, int maxSize) {
+    queue->stackA = stack_init();
+    queue->stackB = stack_init();
+}
+
+/* Push element x to the back of queue */
+void queuePush(Queue *queue, int element) {
+    while(!stack_is_empty(queue->stackA))
+    {
+        stack_push(queue->stackB, stack_top(queue->stackA));
+        stack_pop(queue->stackA);
+    }
+
+    stack_push(queue->stackA, element);
+
+    while(!stack_is_empty(queue->stackB))
+    {
+        stack_push(queue->stackA, stack_top(queue->stackB));
+        stack_pop(queue->stackB);
+    }
+}
+
+/* Removes the element from front of queue */
+void queuePop(Queue *queue) {
+    stack_pop(queue->stackA);
+}
+
+/* Get the front element */
+int queuePeek(Queue *queue) {
+    return stack_top(queue->stackA);
+}
+
+/* Return whether the queue is empty */
+bool queueEmpty(Queue *queue) {
+    return stack_is_empty(queue->stackA);
+}
+
+/* Destroy the queue */
+void queueDestroy(Queue *queue) {
+    if(queue)
+    {
+        free(queue->stackA);
+        free(queue->stackB);
+    }
+}
+
+
+
+void stack_main_test(void)
+{
+    Queue * queue = (Queue *)malloc(sizeof(Queue));
+    queueCreate(queue, 10);
+    queuePush(queue, 5);
+    queuePush(queue, 1);
+    queuePush(queue, 2);
+    queuePush(queue, 3);
+    queuePush(queue, 4);
+
+    printf("front : %d\n", queuePeek(queue));
+}
+#if 0
 void stack_main_test(void)
 {
     int ret = 0;
@@ -165,3 +249,4 @@ void stack_main_test(void)
     ret = isValid(str);
     printf("ret=%d\n", ret);
 }
+#endif
