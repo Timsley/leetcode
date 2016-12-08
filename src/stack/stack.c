@@ -266,20 +266,20 @@ char* dfs(char* s, int *k)
             else 
                 res = (char *)realloc(res, cnt*len*sizeof(char)+strlen(res)+1);
             
-                if(res == NULL)
+            if(res == NULL)
+            {
+                printf("realloc is NULL, fail\n");
+            }
+            else
+            {
+                for(i=0; i<cnt; i++)
                 {
-                    printf("realloc is NULL, fail\n");
+                    strncat(res, temp, len);
+                    //printf("Splice String : (time:%3d) %s\n", i+1, res);
                 }
-                else
-                {
-                    for(i=0; i<cnt; i++)
-                    {
-                        strncat(res, temp, len);
-                        //printf("Splice String : (time:%3d) %s\n", i+1, res);
-                    }
-                    
-                    cnt = 0;
-                }
+                
+                cnt = 0;
+            }
 
         }
         else if(s[*k] == ']')
