@@ -15,6 +15,7 @@ DIRS_SRC   += src
 DIRS_SRC   += src/linked_list
 #DIRS_SRC   += src/two_pointers
 DIRS_SRC   += src/array
+DIRS_SRC   += src/queue
 DIRS_SRC   += src/stack
 
 

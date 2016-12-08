@@ -2,7 +2,7 @@
 #include "typedef.h"
 //#include "linked_list.h"
 //#include "array.h"
-#include "stack.h"
+//#include "stack.h"
 
 int main (int argc, const char * argv[]) 
 {
