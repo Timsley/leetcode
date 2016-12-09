@@ -866,6 +866,51 @@ int* twoSum(int* nums, int numsSize, int target)
     return NULL;
 }
 
+/***************************************************************************************
+*****                             448. Find All Numbers Disappeared in an Array
+*****       Given an array of integers where 1 = a[i] = n (n = size of array), some elements appear twice and others appear once.
+*****       
+*****       Find all the elements of [1, n] inclusive that do not appear in this array.
+*****       
+*****       Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+*****       
+*****       Example:
+*****       Input:
+*****       [4,3,2,7,8,2,3,1]
+*****       
+*****       Output:
+*****       [5,6]
+****************************************************************************************/
+int* findDisappearedNumbers(int* nums, int numsSize, int* returnSize) 
+{
+    int * ret = (int *)malloc(sizeof(int));
+    int i=0, j=0, index=0;
+
+    for(i=0; i<numsSize; i++)
+    {
+        index = abs(nums[i]) - 1;
+        if(nums[index] > 0)
+            nums[index] = -nums[index];
+    }
+
+    for(i=0; i<numsSize; i++)
+    {
+        if(nums[i] > 0)
+        {
+            ret[j++] = i + 1;
+            ret = (int *)realloc(ret, sizeof(int));
+        }
+    }
+    
+    *returnSize = j;
+
+    return ret;
+}
+
+
+
+
+
 #define ROW     4
 #define COL      4
 
