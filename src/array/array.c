@@ -978,6 +978,39 @@ int findPeakElement(int* nums, int numsSize)
     return i;
 }
 
+/***************************************************************************************
+*****                             153. Find Minimum in Rotated Sorted Array
+*****       Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+*****       
+*****       (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+*****       
+*****       Find the minimum element.
+*****       
+*****       You may assume no duplicate exists in the array.
+****************************************************************************************/
+int findMin(int* nums, int numsSize) 
+{
+    int i=0;
+    
+    for(i=0; i<numsSize; i++)
+    {
+        if(0 == i)
+        {
+            if( (nums[0]<nums[1]) && (nums[0]<nums[numsSize-1]))    
+                return nums[0];
+        }
+        else if((numsSize-1) == i)
+        {
+            if( (nums[numsSize-1]<nums[0]) && (nums[numsSize-1]<nums[numsSize-2]))    
+                return nums[numsSize-1];    
+        }
+        else if( (nums[i]<nums[i-1]) && (nums[i]<nums[i+1])) 
+            return nums[i];
+    }
+    
+    return 1;
+}
+
 
 #define ROW     4
 #define COL      4
