@@ -952,6 +952,31 @@ int* two_Sum(int* numbers, int numbersSize, int target, int* returnSize)
     return NULL;
 }
 
+/***************************************************************************************
+*****                             162. Find Peak Element
+*****       A peak element is an element that is greater than its neighbors.
+*****       
+*****       Given an input array where num[i] ¡Ù num[i+1], find a peak element and return its index.
+*****       
+*****       The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
+*****       
+*****       You may imagine that num[-1] = num[n] = -¡Þ.
+*****       
+*****       For example, in array [1, 2, 3, 1], 3 is a peak element and your function should return the index number 2.
+****************************************************************************************/
+int findPeakElement(int* nums, int numsSize)
+{
+    int i=0;
+
+    while((i+1)< numsSize)
+    {
+        if(nums[i] > nums[i+1])
+            return i;
+        i++;
+    }
+
+    return i;
+}
 
 
 #define ROW     4
@@ -962,12 +987,15 @@ void array_main_test(void)
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
     
-    int array[] = { 2, 3, 4 }; 
+    int array[] = { 1, 2, 3, 1 }; 
     int len = sizeof(array)/sizeof(array[0]);
     int size = 0;   
 
+    size = findPeakElement(array, len);
+    printf("ret %d\n", size);
+#if 0
     two_Sum(array, len, 6, &size);
-
+#endif
 #if 0
     int doubleArray[ROW][COL] = {
                                     {1,2,3,4},
