@@ -8,7 +8,7 @@ int main (int argc, const char * argv[])
 {
     //link_list_main_test();
 //    array_main_test();
-    stack_main_test();
+    array_main_test();
     
     //two_pointers_main_test();
     return 0;

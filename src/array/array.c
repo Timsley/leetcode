@@ -908,6 +908,49 @@ int* findDisappearedNumbers(int* nums, int numsSize, int* returnSize)
 }
 
 
+/***************************************************************************************
+*****                             167. Two Sum II - Input array is sorted
+*****       Given an array of integers that is already sorted in ascending order, find two numbers 
+*****       such that they add up to a specific target number.
+*****       
+*****       The function twoSum should return indices of the two numbers such that they add up to the target, 
+*****       where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.
+*****       
+*****       You may assume that each input would have exactly one solution.
+*****       
+*****       Input: numbers={2, 7, 11, 15}, target=9
+*****       Output: index1=1, index2=2
+****************************************************************************************/
+int* two_Sum(int* numbers, int numbersSize, int target, int* returnSize) 
+{
+    int * ret = (int *)malloc(sizeof(int));
+    int i=0;
+    int *p, *q;
+
+    p = &numbers[0];
+    q = &numbers[numbersSize-1];
+
+    while(p != q)
+    {
+        if( (*p + *q) == target )
+        {
+            ret = (int *)realloc(ret, sizeof(int));
+            ret[0] = (p-&numbers[0]) + 1;
+            ret[1] = (q-&numbers[0]) + 1;
+            *returnSize = 2;
+
+            return ret;
+        }
+        else if( (*p + *q) > target )
+            q = q -1;
+        else if( (*p + *q) < target )
+            p = p + 1;
+    }
+    
+    *returnSize = 0;
+
+    return NULL;
+}
 
 
 
@@ -918,6 +961,12 @@ void array_main_test(void)
 {
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
+    
+    int array[] = { 2, 3, 4 }; 
+    int len = sizeof(array)/sizeof(array[0]);
+    int size = 0;   
+
+    two_Sum(array, len, 6, &size);
 
 #if 0
     int doubleArray[ROW][COL] = {
@@ -962,6 +1011,7 @@ void array_main_test(void)
     printArray(returnArray, arraySize);
 #endif
 
+#if 0
     int array[] = { 1,2,3, 4 }; 
     int len = sizeof(array)/sizeof(array[0]);
 
@@ -970,4 +1020,5 @@ void array_main_test(void)
     
     returnArray = productExceptSelf(array, len, &arraySize);
     printArray(returnArray, arraySize);
+#endif    
 }
