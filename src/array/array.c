@@ -1011,6 +1011,84 @@ int findMin(int* nums, int numsSize)
     return 1;
 }
 
+#if 0
+/***************************************************************************************
+*****                             229. Majority Element II
+*****       Given an integer array of size n, find all elements that appear more than [n/3] times. 
+*****       The algorithm should run in linear time and in O(1) space
+****************************************************************************************/
+int* majorityElement2(int* nums, int numsSize, int* returnSize) 
+{
+    int * ret = (int *)malloc(sizeof(int));
+    int i=0, j=0, k=0;
+    int count = 1;
+
+    for(i=0; i<numsSize; i++)
+    {
+        for(j=i; j<numsSize; j++)
+        {
+            printf("nums[i]:%d      nums[j]:%d\n", nums[i], nums[j]);
+            if(0 == (nums[i]-nums[j]))
+            {
+                printf("count=%d        numsSize/3:%d\n", count, numsSize/3);
+                if(++count > (numsSize/3))
+                {
+                    ret[k++] = nums[i];
+                    ret = (int *)realloc(ret, sizeof(int));
+                    count = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    *returnSize = k;
+
+    return ret;
+}
+#endif
+
+
+/***************************************************************************************
+*****                             442. Find All Duplicates in an Array
+*****       Given an array of integers, 1 = a[i] = n (n = size of array), some elements appear twice and others appear once.
+*****       
+*****       Find all the elements that appear twice in this array.
+*****       
+*****       Could you do it without extra space and in O(n) runtime?
+*****       
+*****       Example:
+*****       Input:
+*****       [4,3,2,7,8,2,3,1]
+*****       
+*****       Output:
+*****       [2,3]
+****************************************************************************************/
+int* findDuplicates(int* nums, int numsSize, int* returnSize) 
+{
+    int * ret = (int *)malloc(sizeof(int));
+    int i=0, j=0, index=0;
+
+    for(i=0; i<numsSize; i++)
+    {
+        index = abs(nums[i]) - 1;
+        
+        //printf("nums[%d]:%d     index:%d        nums[index-1]:%d\n", i, nums[i], index, nums[index]);
+        if(nums[index] < 0)
+        {
+            ret[ j++] = abs(nums[i]);           
+            ret = (int *)realloc(ret, (j+1)*sizeof(int));
+
+            *returnSize = j;
+        }
+        else
+            nums[index] = -nums[index];
+    }
+    
+    return ret;
+}
+
+
 
 #define ROW     4
 #define COL      4
@@ -1020,12 +1098,15 @@ void array_main_test(void)
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
     
-    int array[] = { 1, 2, 3, 1 }; 
+    int array[] = {1, 1}; 
     int len = sizeof(array)/sizeof(array[0]);
     int size = 0;   
 
+    findDuplicates(array, len, &size);
+#if 0
     size = findPeakElement(array, len);
     printf("ret %d\n", size);
+#endif    
 #if 0
     two_Sum(array, len, 6, &size);
 #endif
