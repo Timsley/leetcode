@@ -1073,7 +1073,7 @@ int* findDuplicates(int* nums, int numsSize, int* returnSize)
     {
         index = abs(nums[i]) - 1;
         
-        //printf("nums[%d]:%d     index:%d        nums[index-1]:%d\n", i, nums[i], index, nums[index]);
+        printf("nums[%d]:%2d     index:%2d        nums[index-1]:%2d\n", i, nums[i], index, nums[index]);
         if(nums[index] < 0)
         {
             ret[ j++] = abs(nums[i]);           
@@ -1088,6 +1088,30 @@ int* findDuplicates(int* nums, int numsSize, int* returnSize)
     return ret;
 }
 
+/***************************************************************************************
+*****                             80. Remove Duplicates from Sorted Array II
+*****       Follow up for "Remove Duplicates":
+*****       What if duplicates are allowed at most twice?
+*****       
+*****       For example,
+*****       Given sorted array nums = [1,1,1,2,2,3],
+*****       
+*****       Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. 
+*****       It doesn't matter what you leave beyond the new length.
+****************************************************************************************/
+int removeDuplicates2(int* nums, int numsSize) 
+{
+    int i=0, count=0;
+
+    for(i=0; i<numsSize; i++)
+    {
+        if(count<2 || nums[i]>nums[count-2])
+            nums[count++] = nums[i];
+    }
+
+    return count;
+}
+
 
 
 #define ROW     4
@@ -1098,11 +1122,13 @@ void array_main_test(void)
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
     
-    int array[] = {1, 1}; 
+    int array[] = {1,1,1,1,2,3}; 
     int len = sizeof(array)/sizeof(array[0]);
     int size = 0;   
 
-    findDuplicates(array, len, &size);
+    size = removeDuplicates2(array, len);
+
+    printArray(array, size);
 #if 0
     size = findPeakElement(array, len);
     printf("ret %d\n", size);
