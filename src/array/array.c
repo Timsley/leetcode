@@ -1112,6 +1112,41 @@ int removeDuplicates2(int* nums, int numsSize)
     return count;
 }
 
+/***************************************************************************************
+*****                             75. Sort Colors
+*****       Given an array with n objects colored red, white or blue, sort them so that objects of 
+*****       the same color are adjacent, with the colors in the order red, white and blue.
+*****       
+*****       Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+*****       
+*****       Note:
+*****       You are not suppose to use the library's sort function for this problem.
+****************************************************************************************/
+void sortColors(int* nums, int numsSize) 
+{
+    int i=0, zero=0, second=numsSize-1;
+    int temp=-1;
+
+    for(i=0; i<=second; i++)
+    {
+        while( (2 == nums[i]) && (i < second) )
+        {
+            temp = nums[i];
+            nums[i] = nums[second];
+            nums[second] = temp;
+            second--;
+        }
+        
+        while( (0 == nums[i]) && (i > zero) )
+        {
+            temp = nums[i];
+            nums[i] = nums[zero];
+            nums[zero] = temp;
+            zero++;
+        }
+    }
+}
+
 
 
 #define ROW     4
@@ -1122,13 +1157,13 @@ void array_main_test(void)
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
     
-    int array[] = {1,1,1,1,2,3}; 
+    int array[] = {0,1,0}; 
     int len = sizeof(array)/sizeof(array[0]);
     int size = 0;   
 
-    size = removeDuplicates2(array, len);
+    sortColors(array, len);
 
-    printArray(array, size);
+    printArray(array, len);
 #if 0
     size = findPeakElement(array, len);
     printf("ret %d\n", size);
