@@ -13,6 +13,7 @@ void printArray(int * array, int num)
     {
         printf("%d  ", array[i]);
     }
+    printf("\n");
 }
 
 void printDoubleArray(int **array, int row, int col)
@@ -1147,16 +1148,73 @@ void sortColors(int* nums, int numsSize)
     }
 }
 
+int* spiralOrder(int** matrix, int matrixRowSize, int matrixColSize) 
+{
+    int * ret = (int *)malloc(matrixRowSize*matrixColSize*sizeof(int));
+    int k=0;
+
+    int rowBegin=0, rowEnd=matrixRowSize-1;
+    int colBegin=0, colEnd=matrixColSize-1;
+    int i=0;    
+
+    while((rowBegin<=rowEnd) && (colBegin<=colEnd))
+    {
+        for(i=colBegin; i<=colEnd; i++)
+            ret[k++] = matrix[rowBegin][i];
+        rowBegin++;
+
+        for(i=rowBegin; i<=rowEnd; i++)
+            ret[k++] = matrix[i][colEnd];
+        colEnd--;
+
+        if(rowBegin<=rowEnd)
+        {
+            for(i=colEnd; i>=colBegin; i--)
+                ret[k++] = matrix[rowEnd][i];
+        }
+        rowEnd--;
+
+        if(colBegin<=colEnd)
+        {
+            for(i=rowEnd; i>=rowBegin; i--)        
+                ret[k++] = matrix[i][colBegin];
+        }
+        colBegin++;
+    }
+
+    return ret;
+}
 
 
-#define ROW     4
-#define COL      4
+#define ROW     1
+#define COL      10
 
 void array_main_test(void)
 {
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
+
+    int doubleArray[ROW][COL] = {
+                                    //{1,2,3,4},
+                                    //{5,6,7,8},
+                                    //{9,10,11,12},
+                                    //{13,14,15,16}
+                                        {1,2,3,4,5,6,7,8, 9,10},
+                                }; 
     
+    int **matrix =  (int **)malloc(sizeof(int *)*ROW);
+    
+    int i;
+    for(i=0; i<ROW; i++)
+        matrix[i] = doubleArray[i];
+
+    int * result;
+
+    result = spiralOrder(matrix, ROW, COL);
+    //printDoubleArray(matrix, ROW, COL);
+    printArray(result, ROW*COL);
+
+#if 0    
     int array[] = {0,1,0}; 
     int len = sizeof(array)/sizeof(array[0]);
     int size = 0;   
@@ -1164,6 +1222,8 @@ void array_main_test(void)
     sortColors(array, len);
 
     printArray(array, len);
+#endif
+
 #if 0
     size = findPeakElement(array, len);
     printf("ret %d\n", size);
