@@ -25,7 +25,7 @@ void printDoubleArray(int **array, int row, int col)
         for(j=0; j<col; j++)
         {
             //printf("array[%d][%d]=%d   ", i, j, array[i*col + j]);
-            printf("array[%d][%d]=%d   ", i, j, array[i][j]);
+            printf("array[%d][%d]=%2d   ", i, j, array[i][j]);
         }
         printf("\n");
     }
@@ -1148,6 +1148,20 @@ void sortColors(int* nums, int numsSize)
     }
 }
 
+/***************************************************************************************
+*****                             54. Spiral Matrix
+*****       Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+*****       
+*****       For example,
+*****       Given the following matrix:
+*****       
+*****       [
+*****        [ 1, 2, 3 ],
+*****        [ 4, 5, 6 ],
+*****        [ 7, 8, 9 ]
+*****       ]
+*****       You should return [1,2,3,6,9,8,7,4,5].
+****************************************************************************************/
 int* spiralOrder(int** matrix, int matrixRowSize, int matrixColSize) 
 {
     int * ret = (int *)malloc(matrixRowSize*matrixColSize*sizeof(int));
@@ -1185,15 +1199,86 @@ int* spiralOrder(int** matrix, int matrixRowSize, int matrixColSize)
     return ret;
 }
 
+/***************************************************************************************
+*****                             59. Spiral Matrix II
+*****       Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+*****       
+*****       For example,
+*****       Given n = 3,
+*****       
+*****       You should return the following matrix:
+*****       [
+*****        [ 1, 2, 3 ],
+*****        [ 8, 9, 4 ],
+*****        [ 7, 6, 5 ]
+*****       ]
+****************************************************************************************/
+int** generateMatrix(int n) 
+{
+    int i=0, num=1;
+    int rowBegin=0, rowEnd= n-1;
+    int colBegin=0, colEnd=n-1;
+    
+    int **matrix= (int **)malloc(n*sizeof(int *));
+    for(i=0;i<n;i++)
+    {
+        matrix[i]=(int *)malloc(n*sizeof(int));
+        memset(matrix[i], 0, sizeof(int)*n);
+    }
 
-#define ROW     1
-#define COL      10
+    while(rowBegin<=rowEnd && colBegin<=colEnd)
+    {
+        for(i=colBegin; i<=colEnd; i++)
+        {
+            matrix[rowBegin][i] = num++;
+            //printf("111 matrix[%d][%d] : %d\n", rowBegin, i, matrix[rowBegin][i]);
+        }
+        rowBegin++;
+
+        for(i=rowBegin; i<=rowEnd; i++)
+        {
+            matrix[i][colEnd] = num++;
+            //printf("222 matrix[%d][%d] : %d\n", i, colEnd, matrix[i][colEnd]);
+        }
+        colEnd--;
+
+        if(rowBegin<=rowEnd)
+        {
+            for(i=colEnd; i>=colBegin; i--)
+            {
+                matrix[rowEnd][i] = num++;
+                //printf("333 matrix[%d][%d] : %d\n", rowEnd, i, matrix[rowEnd][i]);
+            }
+        }
+        rowEnd--;
+
+        if(colBegin<=colEnd)
+        {
+            for(i=rowEnd; i>=rowBegin; i--)
+            {
+                matrix[i][colBegin] = num++;
+                //printf("444 matrix[%d][%d] : %d\n", i, colBegin, matrix[i][colBegin]);
+            }
+        }
+        colBegin++;
+    }
+
+    return matrix;
+}
+
+
+#define ROW     6
+#define COL      6
 
 void array_main_test(void)
 {
     //int array[] = { 0,1,0,3,32,0,0,45}; 
     //int len = sizeof(array)/sizeof(array[0]);
 
+    
+    printDoubleArray(generateMatrix(ROW), ROW, COL);
+
+#if 0       // test case for 54. Spiral Matrix
     int doubleArray[ROW][COL] = {
                                     //{1,2,3,4},
                                     //{5,6,7,8},
@@ -1213,6 +1298,7 @@ void array_main_test(void)
     result = spiralOrder(matrix, ROW, COL);
     //printDoubleArray(matrix, ROW, COL);
     printArray(result, ROW*COL);
+#endif    
 
 #if 0    
     int array[] = {0,1,0}; 
