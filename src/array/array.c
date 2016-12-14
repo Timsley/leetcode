@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
 
 
 
@@ -1266,18 +1267,84 @@ int** generateMatrix(int n)
     return matrix;
 }
 
+/***************************************************************************************
+*****                             414. Third Maximum Number
+*****       Given a non-empty array of integers, return the third maximum number in this array. 
+*****       If it does not exist, return the maximum number. The time complexity must be in O(n).
+*****       
+*****       Example 1:
+*****       Input: [3, 2, 1]
+*****       
+*****       Output: 1
+*****       
+*****       Explanation: The third maximum is 1.
+*****       Example 2:
+*****       Input: [1, 2]
+*****       
+*****       Output: 2
+*****       
+*****       Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+*****       Example 3:
+*****       Input: [2, 2, 3, 1]
+*****       
+*****       Output: 1
+*****       
+*****       Explanation: Note that the third maximum here means the third maximum distinct number.
+*****       Both numbers with value 2 are both considered as second maximum.
+****************************************************************************************/
+int thirdMax(int* nums, int numsSize) 
+{
+    int i=0, count=0;
+    long min, mid, max;
+    min=mid=max=LONG_MIN;
+
+    for(i=0; i<numsSize; i++)
+    {        
+        /* ignore the same value */
+        if(nums[i]==max || nums[i]==mid)
+            continue;
+        
+        if(nums[i] > max)
+        {
+            min = mid;
+            mid = max;
+            max = nums[i];
+            count++;
+        }
+        else if(nums[i] > mid)
+        {
+            min = mid;
+            mid = nums[i];
+            count++;
+        }
+        else if(nums[i] >= min)
+        {
+            min = nums[i];
+            count++;
+        }            
+    }
+
+    if(count >= 3)
+        return min;
+    else 
+        return max; 
+}
+
 
 #define ROW     6
 #define COL      6
 
 void array_main_test(void)
 {
-    //int array[] = { 0,1,0,3,32,0,0,45}; 
-    //int len = sizeof(array)/sizeof(array[0]);
+    int array[] = { 1,2,-2147483648LL}; 
+    int len = sizeof(array)/sizeof(array[0]);
+    int ret = 0;
 
-    
-    printDoubleArray(generateMatrix(ROW), ROW, COL);
-
+    ret = thirdMax(array, len);
+    printf("ret : %d\n", ret);
+#if 0 // test case for 59. Spiral Matrix II    
+    //printDoubleArray(generateMatrix(ROW), ROW, COL);
+#endif
 #if 0       // test case for 54. Spiral Matrix
     int doubleArray[ROW][COL] = {
                                     //{1,2,3,4},
